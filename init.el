@@ -5,12 +5,12 @@
 ;; 
 ;;; Code:
 
-;; (let ((path (shell-command-to-string ". ~/.bash_login; echo -n $PATH")))
-;;   (setenv "PATH" path)
-;;   (setq exec-path 
-;;         (append
-;;          (split-string-and-unquote path ":")
-;;          exec-path)))
+(let ((path (shell-command-to-string ". ~/.bash_login; echo -n $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path 
+        (append
+         (split-string-and-unquote path ":")
+         exec-path)))
 
 ;; Requisites: Emacs >= 24
 (when (>= 24 emacs-major-version)
@@ -47,7 +47,7 @@
 
   (global-set-key [f7] 'find-file-in-repository)
 
-					; auto-complete mode extra settings
+  ; auto-complete mode extra settings
   (setq
    ac-auto-start 2
    ac-override-local-map nil
@@ -61,7 +61,7 @@
   (setq py-electric-colon-active t)
   (add-hook 'python-mode-hook 'autopair-mode)
   (add-hook 'python-mode-hook 'yas-minor-mode)
-  (add-hook 'python-mode-hook 'hs-minor-modenn)
+  (add-hook 'python-mode-hook 'hs-minor-mode)
   (add-hook 'python-mode-hook 'imenu-add-menubar-index)
 
   ;; Jedi settings
@@ -71,8 +71,8 @@
   ;; correctly with the same interpreter you're using.
 
   ;; if you need to change your python intepreter, do it here
-					;(setq jedi:server-command
-					;      '("python" "/Users/Paul/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py"))
+    ;(setq jedi:server-command
+    ;      '("python" "/Users/Paul/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py"))
 
   (add-hook 'python-mode-hook
 	    (lambda ()
@@ -107,19 +107,25 @@
   ;; -------------------- extra nice things --------------------
   ;; use shift to move around windows
   (windmove-default-keybindings 'shift)
-					;(show-paren-mode t)
-					; Turn beep off
-  (setq visible-bell nil)
+  ;(show-paren-mode t)
+  
+  (setq visible-bell nil) ; Turn beep off
 
   (setq user-mail-address "pop@paulperry.net")
 
   ;; Are we on a mac?
-  (setq is-mac (equal system-type 'darwin))
+;  (setq is-mac (equal system-type 'darwin))
+  (when (memq window-system '(mac ns))
+    (install-if-needed 'exec-path-from-shell)
+    (require 'exec-path-from-shell)
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PYTHONPATH")
+    )
 
   ;; Setup environment variables from the user's shell.
-					;(when is-mac
-					;  (require-package 'exec-path-from-shell)
-					;  (exec-path-from-shell-initialize))
+  ;; (when is-mac
+  ;;   (require 'exec-path-from-shell)
+  ;;   (exec-path-from-shell-initialize))
 
   (setq default-directory (concat (getenv "HOME") "/"))
 
