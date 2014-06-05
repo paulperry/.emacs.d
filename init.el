@@ -5,13 +5,6 @@
 ;; 
 ;;; Code:
 
-(let ((path (shell-command-to-string ". ~/.bash_login; echo -n $PATH")))
-  (setenv "PATH" path)
-  (setq exec-path 
-        (append
-         (split-string-and-unquote path ":")
-         exec-path)))
-
 ;; Requisites: Emacs >= 24
 (when (>= 24 emacs-major-version)
   ;; evaluate version 24 code
@@ -31,7 +24,7 @@
 
   ;; make more packages available with the package installer
   (setq to-install
-	'(python-mode magit yasnippet jedi auto-complete autopair find-file-in-repository flycheck))
+	'(python-mode markdown-mode magit yasnippet jedi auto-complete autopair find-file-in-repository flycheck pydoc-info))
 
   (mapc 'install-if-needed to-install)
 
@@ -39,11 +32,12 @@
   (global-set-key "\C-xg" 'magit-status)
 
   (require 'auto-complete)
+  (global-auto-complete-mode t)
   (require 'autopair)
   (require 'yasnippet)
   (require 'flycheck)
   (global-flycheck-mode t)
-  (global-auto-complete-mode t)
+  (require 'pydoc-info)
 
   (global-set-key [f7] 'find-file-in-repository)
 
@@ -53,7 +47,6 @@
    ac-override-local-map nil
    ac-use-menu-map t
    ac-candidate-limit 20)
-
 
   ;; Python mode settings
   (require 'python-mode)
@@ -114,13 +107,19 @@
   (setq user-mail-address "pop@paulperry.net")
 
   ;; Are we on a mac?
-;  (setq is-mac (equal system-type 'darwin))
   (when (memq window-system '(mac ns))
     (install-if-needed 'exec-path-from-shell)
     (require 'exec-path-from-shell)
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-env "PYTHONPATH")
     )
+
+  (let ((path (shell-command-to-string ". ~/.bash_login; echo -n $PATH")))
+    (setenv "PATH" path)
+    (setq exec-path 
+	  (append
+	   (split-string-and-unquote path ":")
+	   exec-path)))
 
   ;; Setup environment variables from the user's shell.
   ;; (when is-mac
