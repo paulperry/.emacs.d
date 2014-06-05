@@ -20,10 +20,12 @@ It is based on Andrea Crotti's [minimal emacs configuration](https://github.com/
 * `pydoc-info` -- Python documentation
 * `markdown-mode` -- support for [Markdown](http://daringfireball.net/projects/markdown/) files
 * `ein` -- [IPython notebook](http://ipython.org/notebook) plugin
+
 <!---
 * `auctex` -- LaTeX plugin 
 * `matlab-mode` -- support Matlab files
 -->
+
 ### pycheckers ###
 
 `pycheckers` is a little script to check that your Python code
