@@ -8,19 +8,22 @@ On OS X 10.9.2
 This configuration automatically installs several plugins using ELPA and Marmalade.
 It is based on Andrea Crotti's [minimal emacs configuration](https://github.com/AndreaCrotti/minimal-emacs-configuration/) (check his [youtube](https://www.youtube.com/watch?v=0cZ7szFuz18) presentation), with parts of his full [emacs configuration](https://github.com/AndreaCrotti/Emacs-configuration) and parts of Jessica Hamrick's [emacs configuration](https://github.com/jhamrick/emacs/). It adds [exec-path-from-shell](https://github.com/purcell/exec-path-from-shell). 
 
-## Emacs plugins
+## Emacs plugins ##
 
-<!--- * `auctex` -- LaTeX plugin -->
-* `ein` -- [IPython notebook](http://ipython.org/notebook) plugin
+* `python-mode` -- 
+* `magit` -- git support
+* `auto-complete` -- auto completion
+* `autopair` -- paren matching
+* `yasnippet` -- code snippet insertions
+* `flycheck` -- python checker
 * `jedi` -- general Python support
 * `pydoc-info` -- Python documentation
-* `auto-complete` -- auto completion
-* `color-theme-solarized` -- the [solarized](http://ethanschoonover.com/solarized) color theme
-* `magit` -- git plugin
 * `markdown-mode` -- support for [Markdown](http://daringfireball.net/projects/markdown/) files
+* `ein` -- [IPython notebook](http://ipython.org/notebook) plugin
+<!--- * `auctex` -- LaTeX plugin 
 * `matlab-mode` -- support Matlab files
-
-### pycheckers
+-->
+### pycheckers ###
 
 `pycheckers` is a little script to check that your Python code
 conforms to the
