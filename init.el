@@ -40,6 +40,7 @@
   (require 'pydoc-info)
 
   (global-set-key [f7] 'find-file-in-repository)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
 
   ; auto-complete mode extra settings
   (setq
@@ -107,6 +108,14 @@
   (setq user-mail-address "pop@paulperry.net")
 
   ;; Are we on a mac?
+  (defun system-is-mac ()
+    (interactive)
+    (string-equal system-type "darwin"))
+
+  (defun system-is-linux ()
+    (interactive)
+    (string-equal system-type "gnu/linux"))
+
   (when (memq window-system '(mac ns))
     (install-if-needed 'exec-path-from-shell)
     (require 'exec-path-from-shell)
@@ -114,7 +123,7 @@
     (exec-path-from-shell-copy-env "PYTHONPATH")
     )
 
-  (let ((path (shell-command-to-string ". ~/.bash_login; echo -n $PATH")))
+  (let ((path (shell-command-to-string ". ~/.bashrc; echo -n $PATH")))
     (setenv "PATH" path)
     (setq exec-path 
 	  (append
@@ -129,7 +138,7 @@
   (setq default-directory (concat (getenv "HOME") "/"))
 
   ;; Set standard indent to 2 rather that 4 
-  (setq standard-indent 2)
+  (setq standard-indent 4)
 
   ;; Color Themes
   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -148,6 +157,9 @@
  '(mac-command-key-is-meta t)
  '(column-number-mode t)
  '(tool-bar-mode nil)
+ '(py-pychecker-command "pychecker")
+ '(py-pychecker-command-args (quote ("")))
+ '(python-check-command "pychecker")
  )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
