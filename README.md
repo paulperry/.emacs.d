@@ -36,7 +36,7 @@ to the [PEP8 style guide](http://legacy.python.org/dev/peps/pep-0008/)
 using the [pep8](https://pypi.python.org/pypi/pep8) and
 [pyflakes](https://pypi.python.org/pypi/pyflakes/0.8.1) Python
 packages. This may not be necessary with flycheck and flake8, but if
-you want to use the C-c M-w binding to pychecker then you will want to
+you want to use the C-c C-w binding to pychecker then you will want to
 set this up.
 
 If you do not want this functionality, you can comment out the block
