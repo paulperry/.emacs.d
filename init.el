@@ -15,6 +15,9 @@
 	       '("melpa" . "http://melpa.milkbox.net/packages/"))
   (add-to-list 'package-archives
 	       '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'load-path "~/.emacs.d/site-lisp")
+  (progn (cd "~/.emacs.d/site-lisp")
+	 (normal-top-level-add-subdirs-to-load-path))
 
   (package-refresh-contents)
 
@@ -24,7 +27,8 @@
 
   ;; make more packages available with the package installer
   (setq to-install
-	'(python-mode markdown-mode magit yasnippet jedi auto-complete autopair find-file-in-repository flycheck pydoc-info))
+	'(python-mode markdown-mode magit yasnippet jedi direx
+	  auto-complete autopair find-file-in-repository flycheck)) ;;  pydoc-info))
 
   (mapc 'install-if-needed to-install)
 
@@ -37,11 +41,19 @@
   (require 'yasnippet)
   (require 'flycheck)
   (global-flycheck-mode t)
-  (require 'pydoc-info)
-
+;  (require 'pydoc-info)
+  
   (global-set-key [f7] 'find-file-in-repository)
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
+  (require 'popwin)
+  (popwin-mode 1)
+
+  (require 'direx)
+  (push '(direx:direx-mode :position left :width 25 :dedicated t)
+	popwin:special-display-config)
+  (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+  
   ; auto-complete mode extra settings
   (setq
    ac-auto-start 2
@@ -71,12 +83,20 @@
   (add-hook 'python-mode-hook
 	    (lambda ()
 	      (jedi:setup)
-	      (jedi:ac-setup)
+;	      (jedi:ac-setup)
 	      (local-set-key "\C-cd" 'jedi:show-doc)
 	      (local-set-key (kbd "M-SPC") 'jedi:complete)
-	      (local-set-key (kbd "M-.") 'jedi:goto-definition)))
+	      (local-set-key (kbd "M-.") 'jedi:goto-definition)
+	      ))
+
+;  (jedi:use-shortcuts t)
 
   (add-hook 'python-mode-hook 'auto-complete-mode)
+
+  (require 'jedi-direx)
+  (eval-after-load "python"
+    '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+  (add-hook 'jedi-mode-hook 'jedi-direx:setup)
 
 ;;; IPython Setup
   ;;
@@ -93,10 +113,43 @@
    "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
   (require 'ein)
-
   (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
-
   (ido-mode t)
+
+;; set transparency 
+(defun transparency (value)
+  "Sets the transparency of the frame window. 0=transparent/100=opaque"
+  (interactive "nTransparency Value 0 - 100 opaque:")
+  (set-frame-parameter (selected-frame) 'alpha value))
+
+(transparency '90)
+(global-set-key (kbd "C-c t") 'transparency)
+
+(defun djcb-opacity-modify (&optional dec)
+  "modify the transparency of the emacs frame; if DEC is t,
+    decrease the transparency, otherwise increase it in 10%-steps"
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+          (oldalpha (if alpha-or-nil alpha-or-nil 100))
+          (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
+
+ ;; C-8 will increase opacity (== decrease transparency)
+ ;; C-9 will decrease opacity (== increase transparency)
+ ;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") '(lambda()(interactive)
+                               (modify-frame-parameters nil `((alpha . 100)))))
+
+
+;; save history between emacs sessions
+(savehist-mode 1)
+
+;; save cursor position in file
+(setq-default save-place t)
+(require 'saveplace)
+
 
   ;; -------------------- extra nice things --------------------
   ;; use shift to move around windows
