@@ -5,8 +5,8 @@
 ;; 
 ;;; Code:
 
-;; Requisites: Emacs >= 24
-(when (>= 24 emacs-major-version)
+;; Requires: Emacs >= 24
+(when (>= emacs-major-version 24)
   ;; evaluate version 24 code
   (require 'package)
   (package-initialize)
@@ -19,7 +19,8 @@
   (progn (cd "~/.emacs.d/site-lisp")
 	 (normal-top-level-add-subdirs-to-load-path))
 
-  (package-refresh-contents)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
   (defun install-if-needed (package)
     (unless (package-installed-p package)
@@ -221,3 +222,5 @@
  ;; If there is more than one, they won't work right.
  '(set-cursor-color "red")
  )
+
+(setq magit-last-seen-setup-instructions "1.4.0")
