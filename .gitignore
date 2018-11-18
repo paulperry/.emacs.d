@@ -1,8 +1,10 @@
 *~
 *.elc
+.DS_Store
 auto-save-list/
 ac-comphist.dat
 request/
 history
 places
 ido.last
+ac-comphist.dat
