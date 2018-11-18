@@ -1,12 +1,19 @@
 # Emacs Configuration
 Paul Perry
-pop@paulperry.net
 
 Tested on Emacs 24.3 (9.0)
 on OS X 10.9.2 and Ubuntu 12.04
 
 This configuration automatically installs several plugins using ELPA and Marmalade.
-It is based on Andrea Crotti's [minimal emacs configuration](https://github.com/AndreaCrotti/minimal-emacs-configuration/) (check his [youtube](https://www.youtube.com/watch?v=0cZ7szFuz18) presentation), with parts of his full [emacs configuration](https://github.com/AndreaCrotti/Emacs-configuration) and parts of Jessica Hamrick's [emacs configuration](https://github.com/jhamrick/emacs/). It adds [exec-path-from-shell](https://github.com/purcell/exec-path-from-shell). 
+
+It is based on Andrea Crotti's [minimal emacs
+configuration](https://github.com/AndreaCrotti/minimal-emacs-configuration/)
+(check his [youtube](https://www.youtube.com/watch?v=0cZ7szFuz18)
+presentation), with parts of his full [emacs
+configuration](https://github.com/AndreaCrotti/Emacs-configuration)
+and parts of Jessica Hamrick's [emacs
+configuration](https://github.com/jhamrick/emacs/). It adds
+[exec-path-from-shell](https://github.com/purcell/exec-path-from-shell).
 
 ## Emacs plugins ##
 
